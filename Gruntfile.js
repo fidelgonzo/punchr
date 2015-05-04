@@ -43,6 +43,7 @@ module.exports = function (grunt) {
             }
         },
         autoprefixer: {
+			target: {}
         // not used since Uglify task does autoprefixer,
         //    options: ['last 1 version'],
         //    dist: {
@@ -304,7 +305,7 @@ module.exports = function (grunt) {
             },
             generateOpenshiftDirectory: {
                     expand: true,
-                    dest: 'deploy/openshift',
+                    dest: 'deploy/openshift/punchr',
                     src: [
                         'pom.xml',
                         'src/main/**'
@@ -358,7 +359,7 @@ module.exports = function (grunt) {
             },
             openshift: {
                 options: {
-                    dir: 'deploy/openshift',
+                    dir: 'deploy/openshift/punchr',
                     remote: 'openshift',
                     branch: 'master'
                 }
@@ -424,8 +425,8 @@ module.exports = function (grunt) {
         'copy:dist',
         'ngAnnotate',
         'cssmin',
-        'autoprefixer',
-        'uglify',
+        // 'autoprefixer',
+        // 'uglify',
         'rev',
         'usemin',
         'htmlmin'
