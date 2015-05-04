@@ -1,0 +1,23 @@
+{
+    "punchr2App": {
+        "timesheet" : {
+            "home": {
+                "title": "Timesheets",
+                "createLabel": "Créer un nouveau Timesheet",
+                "createOrEditLabel": "Créer ou éditer un Timesheet"
+            },
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Timesheet {{ id }} ?"
+            },
+            "detail": {
+                "title": "Timesheet"
+            },
+            "date": "Date",
+            "title": "Title",
+            "duration": "Duration",
+            "created": "Created",
+            "userId": "userId"
+        }
+    }
+}
+

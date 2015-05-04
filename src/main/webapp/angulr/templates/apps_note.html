@@ -1,0 +1,82 @@
+<!-- hbox layout -->
+<div class="hbox hbox-auto-xs bg-light " ng-init="
+app.settings.asideFixed = true;
+app.settings.asideDock = false;
+app.settings.container = false;
+app.hideAside = true;
+app.hideFooter = true;
+" ng-controller="NoteCtrl">
+<!-- column -->
+<div class="col">
+  <div class="h-full" style="min-height:340px;">
+    <div class="wrapper">
+      <script type="text/ng-template" id="newTimesheet.html">
+        <div ng-include="'apps/note/timesheet.new.html'"></div>
+      </script>
+      <a href class="pull-right btn btn-sm btn-info m-t-n-xs" ng-click="open('sm')">New</a>
+      <div class="h4">Timesheets</div>
+    </div>
+
+    <div class="wrapper b-t m-t-xxs">
+
+
+
+     <div class="form-group form-inline" ng-visible="customVisible">
+
+      <div class="input-group col-sm-2" ng-controller="DatepickerDemoCtrl">
+        <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="$parent.startDate" is-open="opened" datepicker-options="dateOptions" ng-required="false" close-text="Close" />
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="open($event,2)"><i class="glyphicon glyphicon-calendar"></i></button>
+        </span>
+      </div>
+      <div class="input-group col-sm-2" ng-controller="DatepickerDemoCtrl">
+        <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="$parent.endDate" is-open="opened" datepicker-options="dateOptions" ng-required="false" close-text="Close" />
+        <span class="input-group-btn">
+          <button type="button" class="btn btn-default" ng-click="open($event,3)"><i class="glyphicon glyphicon-calendar"></i></button>
+        </span>
+      </div>
+
+      <a href class="btn btn-default" ng-click="changeFilter()">All</a>
+      <a href class="btn btn-default" ng-click="changeFilter('month')">This Month</a>
+      <a href class="btn btn-default" ng-click="changeFilter('week')">This Week</a>
+      <a href class="btn btn-default" ng-click="export()"><i class="fa fa-external-link"></i> Export</a>
+
+      <div class="input-group" style="float: right">
+        <span class="input-group-addon input-sm"><i class="fa fa-search"></i></span>
+        <input type="text" class="form-control input-sm" placeholder="search" ng-model="query">
+      </div>
+    </div>
+    
+
+  </div>
+
+
+  <div class="row-row">
+    <div class="cell scrollable hover">
+      <div class="cell-inner">
+        <div class="padder">
+          <div class="list-group">
+            <a ng-repeat="note in timesheets | dateRange: startDate : endDate : query | orderBy:'date':true" class="list-group-item b-l-{{note.color}} b-l-3x hover-anchor" ng-class="{'hover': note.selected }" ng-click="selectNote(note)">
+              <!-- <span ng-click='deleteNote(note)' class="pull-right text-muted hover-action"><i class="fa fa-times"></i></span> -->
+              <div class="pull-right hover-action" style="padding-top:5px">
+                <button class="btn btn-rounded btn-sm btn-icon btn-default" ng-click='edit(note)'><i class="icon-pencil"></i></button>
+                <button class="btn btn-rounded btn-sm btn-icon btn-default" ng-click='delete(note)'><i class="icon-trash"></i></button>
+              </div>
+              <span class="block text-ellipsis">{{ note.title ? note.title : 'Empty note' }}</span>
+              <small class="text-muted pull-left">{{ note.date | date:"MMM dd hh:mm" }}</small>
+              <!-- <small class="text-muted">- {{ note.dateTo | date:"hh:mm" }}</small> -->
+              <span class="badge bg-success pull-left" style="margin-left:10px">{{ note.duration }}h</span>
+              
+              <div class="clear">&nbsp;</div>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<!-- /column -->
+
+</div>
+<!-- /hbox layout -->

@@ -1,0 +1,15 @@
+<div class="padder">
+  <h2>Export </h2>
+  <div class="list-group">
+
+
+    <div ng-repeat="(date, array) in grouped">
+    	<span class="pull-right"> Total time: <strong>{{array | sumDurationFilter}}h</strong></span>
+      <h4>{{ date | date:"yyyy MMM dd" }}</h4>
+      <!-- <div>&nbsp;</div> -->
+      <div class="list-group-item">
+        <li ng-repeat="note in array | orderBy:'date':true">{{ note.title ? note.title : 'Empty note' }}</li>
+      </div>
+    </div>
+  </div>
+</div>

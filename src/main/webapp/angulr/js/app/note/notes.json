@@ -1,0 +1,39 @@
+{
+  "notes":[
+    {
+      "content": "AngularJS - HTML enhanced for web apps!",
+      "color": "warning",
+      "date": 1410788931159,
+      "dateTo": 1410889931159,
+      "duration": 6
+    },
+    {
+      "content": "Meeting",
+      "color": "primary",
+      "date": 1410788631159,
+      "dateTo": 1429908400000,
+      "duration": 5
+    },
+    {
+      "content": "Keep watching",
+      "color": "success",
+      "date": 1410788731159,
+      "dateTo": 1410798731159,
+      "duration": 3
+    },
+    {
+      "content": "Keep watching",
+      "color": "success",
+      "date": 1410788731159,
+      "dateTo": 1410798731159,
+      "duration": 3
+    },
+    {
+      "content": "Keep watching",
+      "color": "success",
+      "date": 1410788731159,
+      "dateTo": 1410798731159,
+      "duration": 3
+    }
+  ]
+}

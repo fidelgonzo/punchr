@@ -1,0 +1,31 @@
+<div class="modal-body wrapper">
+  <div class="row">
+    <div class="col-md-12">
+      <h3 class="m-t-none m-b font-thin">Log time worked</h3>
+      <form role="form">
+
+        <div class="">
+          <datetimepicker min-date="minDate" show-weeks="showWeeks" hour-step="1" minute-step="15" ng-model="date" show-meridian="true" date-format="dd-MMM-yyyy" date-options="dateOptions" date-disabled="disabled(date, mode)" readonly-time="false"></datetimepicker>
+        </div>
+
+        <div class="form-group">
+          <label>Duration</label>   
+          <input ui-jq="TouchSpin" type="text" value="{{duration}}" class="form-control" data-min='0' data-max="24" data-step="0.5" data-decimals="1" data-postfix="hours" ng-model="duration">
+        </div> 
+
+        <div class="form-group">
+          <label>Description</label>   
+          <textarea class="form-control" rows="3" ng-model="title">{{title}}</textarea>
+        </div> 
+
+        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="cancel()">
+          <span>Cancel</span>
+        </button>
+        <button type="submit" class="btn btn-success pull-right" ng-click="ok()">
+          <span>Save</span>
+        </button>
+        
+      </form>
+    </div>
+  </div>
+</div>

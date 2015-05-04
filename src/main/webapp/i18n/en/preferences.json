@@ -1,0 +1,20 @@
+{
+    "punchr2App": {
+        "preferences" : {
+            "home": {
+                "title": "Preferencess",
+                "createLabel": "Create a new Preferences",
+                "createOrEditLabel": "Create or edit a Preferences"
+            },
+            "delete": {
+                "question": "Are you sure you want to delete Preferences {{ id }}?"
+            },
+            "detail": {
+                "title": "Preferences"
+            },
+            "preferred_from": "Preferred_from",
+            "preferred_to": "Preferred_to",
+            "userId": "userId"
+        }
+    }
+}

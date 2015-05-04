@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beansProjectDescription>
+	<version>1</version>
+	<pluginVersion><![CDATA[3.6.4.201503051146-RELEASE]]></pluginVersion>
+	<configSuffixes>
+		<configSuffix><![CDATA[xml]]></configSuffix>
+	</configSuffixes>
+	<enableImports><![CDATA[false]]></enableImports>
+	<configs>
+	</configs>
+	<autoconfigs>
+		<config>java:com.punchr.Application</config>
+		<config>java:com.punchr.web.filter.SimpleCORSFilter</config>
+		<config>java:com.punchr.config.JacksonConfiguration</config>
+		<config>java:com.punchr.security.UserDetailsService</config>
+		<config>java:com.punchr.config.MetricsConfiguration</config>
+		<config>java:com.punchr.security.AjaxAuthenticationSuccessHandler</config>
+		<config>java:com.punchr.config.MetricsConfiguration$SparkRegistry</config>
+		<config>java:com.punchr.repository.CustomAuditEventRepository</config>
+		<config>java:com.punchr.security.AjaxLogoutSuccessHandler</config>
+		<config>java:com.punchr.config.WebConfigurer</config>
+		<config>java:com.punchr.config.DatabaseConfiguration</config>
+		<config>java:com.punchr.config.MetricsConfiguration$GraphiteRegistry</config>
+		<config>java:com.punchr.config.CacheConfiguration</config>
+		<config>java:com.punchr.security.SpringSecurityAuditorAware</config>
+		<config>java:com.punchr.config.audit.AuditEventConverter</config>
+		<config>java:com.punchr.config.SecurityConfiguration</config>
+		<config>java:com.punchr.security.AjaxAuthenticationFailureHandler</config>
+		<config>java:com.punchr.config.CloudDatabaseConfiguration</config>
+		<config>java:com.punchr.security.Http401UnauthorizedEntryPoint</config>
+	</autoconfigs>
+	<configSets>
+	</configSets>
+</beansProjectDescription>

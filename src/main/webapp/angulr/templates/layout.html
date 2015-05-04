@@ -1,0 +1,17 @@
+<!-- navbar -->
+  <div data-ng-include=" 'angulr/templates/header.html' " class="app-header navbar">
+  </div>
+<!-- / navbar -->
+
+<!-- app-content-full -->
+  <!-- view -->
+  <div class="app-content" ng-class="{'m-n': app.hideAside, 'h-full': app.hideFooter }">
+    <div class="app-content-body  fade-in-up" ng-class="{'h-full': app.hideFooter }" ui-view>
+    </div>
+  </div>
+  <!-- / view -->
+  <!-- navbar -->
+  <div class="app-footer navbar navbar-fixed-bottom bg-light lt b-t" ng-class="{'m-n': app.hideAside, 'hide': app.hideFooter}" ui-view="footer">
+    
+  </div>
+  <!-- /navbar -->

@@ -1,0 +1,19 @@
+{
+  "generator-jhipster": {
+    "baseName": "punchr2",
+    "packageName": "com.punchr",
+    "packageFolder": "com/punchr",
+    "authenticationType": "session",
+    "hibernateCache": "no",
+    "clusteredHttpSession": "no",
+    "websocket": "no",
+    "databaseType": "sql",
+    "devDatabaseType": "mysql",
+    "prodDatabaseType": "mysql",
+    "useCompass": false,
+    "buildTool": "maven",
+    "frontendBuilder": "grunt",
+    "javaVersion": "7",
+    "rememberMeKey": "799174fc031d134ccbd8a440d2bc478224edb368"
+  }
+}
