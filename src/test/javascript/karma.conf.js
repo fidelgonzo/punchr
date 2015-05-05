@@ -39,6 +39,8 @@ module.exports = function (config) {
             'main/webapp/bower_components/angular-ui-utils/ui-utils.js',
             'main/webapp/bower_components/oclazyload/dist/ocLazyLoad.min.js',
             'main/webapp/bower_components/angular-translate-storage-local/angular-translate-storage-local.js',
+            'main/webapp/bower_components/moment/moment.js',
+            'main/webapp/bower_components/bootstrap-daterangepicker/daterangepicker.js',
             'main/webapp/bower_components/angular-mocks/angular-mocks.js',
             // endbower
             'main/webapp/angulr/js/app.js',
