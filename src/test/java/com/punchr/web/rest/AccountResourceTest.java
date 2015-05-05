@@ -116,7 +116,7 @@ public class AccountResourceTest {
         user.setLogin("test");
         user.setFirstName("john");
         user.setLastName("doe");
-        user.setEmail("john.doe@jhipter.com");
+        user.setEmail("john.doe@mail.com");
         user.setAuthorities(authorities);
         when(mockUserService.getUserWithAuthorities()).thenReturn(user);
 
@@ -127,7 +127,7 @@ public class AccountResourceTest {
                 .andExpect(jsonPath("$.login").value("test"))
                 .andExpect(jsonPath("$.firstName").value("john"))
                 .andExpect(jsonPath("$.lastName").value("doe"))
-                .andExpect(jsonPath("$.email").value("john.doe@jhipter.com"))
+                .andExpect(jsonPath("$.email").value("john.doe@mail.com"))
                 .andExpect(jsonPath("$.roles").value(AuthoritiesConstants.ADMIN));
     }
 

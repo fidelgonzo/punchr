@@ -42,11 +42,7 @@ app.controller('NoteCtrl', ['$scope', '$http', 'Timesheet', '$modal', 'Principal
           if(thisMonth == moment(timesheet.date).month()){
             $scope.account.workedThisMonth+= timesheet.duration;
           }
-          var dateKey = moment(timesheet.date).format('YYYY-MM-DD');
-          if($scope.grouped[dateKey] == undefined)
-            $scope.grouped[dateKey] = [];
-
-          $scope.grouped[dateKey].push(timesheet);
+         
 
 
         });
@@ -181,9 +177,11 @@ app.controller('NoteCtrl', ['$scope', '$http', 'Timesheet', '$modal', 'Principal
       controller: 'TimesheetModalExportInstanceCtrl',
       size: 'xl',
       resolve: {
-        grouped : function () {
-          return $scope.grouped;
-        }
+        timesheets : function () {
+          return $scope.filteredTimesheets;
+        },
+        startDate : function () {return $scope.startDate;},
+        endDate : function () {return $scope.endDate;}
       }
     });
 
@@ -235,10 +233,26 @@ app.controller('TimesheetModalInstanceCtrl', ['$scope', '$modalInstance', 'times
 }]);
 
 
-app.controller('TimesheetModalExportInstanceCtrl', ['$scope', '$modalInstance', 'grouped', '$filter',
-  function($scope, $modalInstance, grouped, $filter) {
-  $scope.grouped = grouped;
+app.controller('TimesheetModalExportInstanceCtrl', ['$scope', '$modalInstance', 'timesheets', '$filter','startDate','endDate',
+  function($scope, $modalInstance, timesheets, $filter, startDate, endDate) {
+  $scope.startDate = startDate;
+  $scope.endDate = endDate;
+  $scope.grouped = {};
 
+  angular.forEach(timesheets, function(timesheet) {
+    var dateKey = moment(timesheet.date).format('YYYY-MM-DD');
+    if($scope.grouped[dateKey] == undefined)
+      $scope.grouped[dateKey] = [];
+    $scope.grouped[dateKey].push(timesheet);
+  });
+
+  
+    // if(startDate <= moment(dateKey) && endDate >= moment(dateKey)){
+      // if($scope.grouped[dateKey] == undefined)
+              // $scope.grouped[dateKey] = [];
+      // $scope.grouped[dateKey].push(timesheet);
+    // }
+  // });
 }]);
 
  

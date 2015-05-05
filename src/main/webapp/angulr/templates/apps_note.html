@@ -56,7 +56,7 @@ app.hideFooter = true;
       <div class="cell-inner">
         <div class="padder">
           <div class="list-group">
-            <a ng-repeat="note in timesheets | dateRange: startDate : endDate : query | orderBy:'date':true" class="list-group-item b-l-{{note.color}} b-l-3x hover-anchor" ng-class="{'hover': note.selected }" ng-click="selectNote(note)">
+            <a ng-repeat="note in (filteredTimesheets = (timesheets | dateRange: startDate : endDate : query | orderBy:'date':true))" class="list-group-item b-l-{{note.color}} b-l-3x hover-anchor" ng-class="{'hover': note.selected }" ng-click="selectNote(note)">
               <!-- <span ng-click='deleteNote(note)' class="pull-right text-muted hover-action"><i class="fa fa-times"></i></span> -->
               <div class="pull-right hover-action" style="padding-top:5px">
                 <button class="btn btn-rounded btn-sm btn-icon btn-default" ng-click='edit(note)'><i class="icon-pencil"></i></button>

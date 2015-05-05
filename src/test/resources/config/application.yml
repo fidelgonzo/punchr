@@ -13,16 +13,16 @@ async:
 
 spring:
     datasource:
-        dataSourceClassName: org.h2.jdbcx.JdbcDataSource
-        url: jdbc:h2:mem:punchr2;DB_CLOSE_DELAY=-1
+        dataSourceClassName: com.mysql.jdbc.jdbc2.optional.MysqlDataSource
+        url: jdbc:mysql://localhost:8889/punchr2?zeroDateTimeBehavior=convertToNull
         databaseName:
         serverName:
-        username:
-        password:
+        username: root
+        password: root
 
     jpa:
-        database-platform: org.hibernate.dialect.H2Dialect
-        database: H2
+        database-platform: org.hibernate.dialect.MySQLInnoDBDialect
+        database: MYSQL
         openInView: false
         show_sql: true
         generate-ddl: false
@@ -32,8 +32,7 @@ spring:
         properties:
             hibernate.cache.use_second_level_cache: false
             hibernate.cache.use_query_cache: false
-            hibernate.generate_statistics: true
-            hibernate.hbm2ddl.auto: validate
+            hibernate.generate_statistics: true            
 
     mail:
         host: localhost
@@ -49,7 +48,7 @@ metrics:
 
 swagger:
     apiDocsLocation: http://localhost:8080
-    title: jhipster API
+    title: swagger API
     description: jhipster applications and beyond!
     termsOfServiceUrl: http://jhipster.github.io/
     contact:
