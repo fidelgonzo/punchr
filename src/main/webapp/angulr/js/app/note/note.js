@@ -8,50 +8,51 @@ app.controller('NoteCtrl', ['$scope', '$http', 'Timesheet', '$modal', 'Principal
 
   Principal.identity().then(function(account) {
     $scope.account = account;
+    $scope.loadAll();
   });
 
   //Load all Timesheets for this user
   $scope.loadAll = function(){
-      Timesheet.query(function(result) {
-        $scope.timesheets = result;
+    if($scope.account.isManager)
+      Timesheet.query({ id: 'all' }, onLoad);  
+    else
+      Timesheet.query(onLoad);  
+  }
 
-        $scope.account.workedThisMonth = 0;
-        var thisMonth = moment().month();
+  function onLoad(result){
+    $scope.timesheets = result;
 
-        $scope.grouped = {};
+    $scope.account.workedThisMonth = 0;
+    var thisMonth = moment().month();
 
-        angular.forEach($scope.timesheets, function(timesheet, key) {
-          var time = $scope.getMinutesFromDate(timesheet.date);
-          if(
-              (time  > $scope.getMinutesFromDate($scope.account.preferredFrom) 
-              && time < $scope.getMinutesFromDate($scope.account.preferredTo))
-            ||
-              (time + timesheet.duration * 60 > $scope.getMinutesFromDate($scope.account.preferredFrom)
-              && time + timesheet.duration * 60 < $scope.getMinutesFromDate($scope.account.preferredTo)
-              )
-            ||
-              (time  < $scope.getMinutesFromDate($scope.account.preferredFrom)
-              && time + timesheet.duration * 60 > $scope.getMinutesFromDate($scope.account.preferredTo)
-              )
-            )
-            timesheet.color = 'danger';
-          else
-            timesheet.color = 'success';
+    $scope.grouped = {};
 
-          //Add worked this month hours
-          if(thisMonth == moment(timesheet.date).month()){
-            $scope.account.workedThisMonth+= timesheet.duration;
-          }
-         
+    //Get Max first for progress bar
+    var maxDistance = 0;
+    var maxAverage = 0;
 
+    angular.forEach($scope.timesheets, function(timesheet, key) {
+      var time = $scope.getMinutesFromDate(timesheet.date);
+      timesheet.color = 'success';          
+      timesheet.durationh = time * 60;
+      timesheet.time = $scope.getSecondsFromDate(timesheet.duration);
+      maxDistance = Math.max(maxDistance, timesheet.distance);
+      maxAverage = Math.max(maxAverage, timesheet.distance / (timesheet.time / 3600));
 
-        });
+      //Add worked this month hours
+      if(thisMonth == moment(timesheet.date).month()){
+        $scope.account.workedThisMonth+= (timesheet.time / 3600);
+      }
+    });
 
-        $scope.account.workedThisMonthPercentage = $scope.account.workedThisMonth / 160 * 100;
+    $scope.maxDistance = maxDistance;
+    $scope.maxAverage = maxAverage;
+    $scope.account.workedThisMonth = Math.trunc($scope.account.workedThisMonth, 2);
+    $scope.account.workedThisMonthPercentage = $scope.account.workedThisMonth / 12 * 100;
 
-        $scope.note = $scope.timesheets[0];
-        $scope.timesheets[0].selected = true;
-    });  
+    $scope.note = $scope.timesheets[0];
+    if($scope.timesheets.length > 0)
+      $scope.timesheets[0].selected = true;
   }
 
   //Minutes Helper function
@@ -59,8 +60,12 @@ app.controller('NoteCtrl', ['$scope', '$http', 'Timesheet', '$modal', 'Principal
     var date = new Date(milis);
     return date.getHours()*60 + date.getMinutes();
   }
-
-  $scope.loadAll();
+  //Seconds Helper function
+  $scope.getSecondsFromDate = function(milis){
+    var date = new Date(milis);
+    return date.getHours()*3600 + date.getMinutes()*60 + date.getSeconds();
+  }
+ 
 
   //Add new timesheet
    $scope.open = function (size) {
@@ -77,10 +82,11 @@ app.controller('NoteCtrl', ['$scope', '$http', 'Timesheet', '$modal', 'Principal
 
       modalInstance.result.then(function (result) {
          var note = {
-          title: result.title,
-          // color: $scope.colors[Math.floor((Math.random()*3))],
-          date: result.date,
-          duration: result.duration
+            title: result.title,
+            // color: $scope.colors[Math.floor((Math.random()*3))],
+            date: result.date,
+            duration: result.duration,
+            distance: result.distance
           };
           // $scope.timesheets.push(note);
           // $scope.selectNote(note);
@@ -149,7 +155,7 @@ app.controller('NoteCtrl', ['$scope', '$http', 'Timesheet', '$modal', 'Principal
     });
     $scope.note = note;
     $scope.dt = note.date;
-    $scope.note.durationh = note.duration / 60;
+    // $scope.note.durationh = note.duration / 60;
     $scope.note.selected = true;
   }
 
@@ -199,6 +205,10 @@ app.controller('NoteCtrl', ['$scope', '$http', 'Timesheet', '$modal', 'Principal
     $scope.timesheet = {date: null, title: null, duration: null, created: null, id: null};
   };
 
+  $scope.hover = function(timesheet){
+    timesheet.hover = !timesheet.hover;
+  }
+
 
 }]);
 
@@ -207,20 +217,27 @@ app.controller('TimesheetModalInstanceCtrl', ['$scope', '$modalInstance', 'times
 
     if(timesheet == null){
       $scope.date = new Date();
-      $scope.duration = 1.0;
+      var time = new Date();
+      time.setHours(0);
+      time.setMinutes(0);
+      time.setSeconds(0);
+      $scope.duration = time;
       $scope.title = "New timesheet";
+      $scope.distance = 0;
     }else{
       $scope.date = timesheet.date;
       $scope.duration = timesheet.duration;
       $scope.title = timesheet.title;
       $scope.timesheet = timesheet;
+      $scope.distance = timesheet.distance;
+      $scope.userId = timesheet.userId;
     }
     
     $scope.ok = function () {
       if($scope.timesheet)
-        $modalInstance.close({date: $scope.date, duration: $scope.duration, title: $scope.title, id: $scope.timesheet.id});
+        $modalInstance.close({date: $scope.date, duration: $scope.duration, title: $scope.title, id: $scope.timesheet.id, distance: $scope.distance, userId: $scope.userId});
       else
-        $modalInstance.close({date: $scope.date, duration: $scope.duration, title: $scope.title, id: 0});
+        $modalInstance.close({date: $scope.date, duration: $scope.duration, title: $scope.title, id: 0, distance: $scope.distance, userId: $scope.userId});
     };
 
     $scope.remove = function(){
@@ -230,6 +247,21 @@ app.controller('TimesheetModalInstanceCtrl', ['$scope', '$modalInstance', 'times
     $scope.cancel = function () {
       $modalInstance.dismiss('cancel');
     };
+
+    $scope.open = function($event) {
+      $event.preventDefault();
+      $event.stopPropagation();
+
+      $scope.opened = true;
+    };
+
+    $scope.dateOptions = {
+      formatYear: 'yy',
+      startingDay: 1
+    };
+
+    $scope.formats = ['dd-MMMM-yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
+    $scope.format = $scope.formats[0];
 }]);
 
 
@@ -238,21 +270,34 @@ app.controller('TimesheetModalExportInstanceCtrl', ['$scope', '$modalInstance', 
   $scope.startDate = startDate;
   $scope.endDate = endDate;
   $scope.grouped = {};
+  // $scope.d = [ [1,6.5],[4,8],[5,7.5],[2,6.5],[3,7],[6,7],[7,6.8],[8,7],[9,7.2],[10,7],[11,6.8],[12,7] ];
+  // $scope.d2 = [ [0,7],[1,6.5],[2,12.5],[3,7],[4,9],[5,6],[6,11],[7,6.5],[8,8],[9,7] ];
 
   angular.forEach(timesheets, function(timesheet) {
-    var dateKey = moment(timesheet.date).format('YYYY-MM-DD');
-    if($scope.grouped[dateKey] == undefined)
+    var dateKey = moment(timesheet.date).format('WW');
+    if($scope.grouped[dateKey] == undefined){
       $scope.grouped[dateKey] = [];
+    }
     $scope.grouped[dateKey].push(timesheet);
   });
 
-  
-    // if(startDate <= moment(dateKey) && endDate >= moment(dateKey)){
-      // if($scope.grouped[dateKey] == undefined)
-              // $scope.grouped[dateKey] = [];
-      // $scope.grouped[dateKey].push(timesheet);
-    // }
-  // });
+  var weeks = [];
+
+  $scope.d = [];
+  $scope.d2 = [];
+
+  angular.forEach($scope.grouped, function(array, key) {
+    var week = {};
+    week.number = key;
+    week.distance = $filter('sumDistanceFilter')(array);
+    $scope.d.push([key, week.distance]);
+    week.average = $filter('sumAverageFilter')(array);
+    $scope.d2.push([key, week.average]);
+    weeks.push(week);
+  });
+
+  $scope.weeks = weeks;
+
 }]);
 
  

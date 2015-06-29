@@ -98,7 +98,22 @@
                       rootUrl+'js/app/note/timesheet.service.js',
                       rootUrl+'js/filters/sumDurationFilter.js',
                       rootUrl+'js/filters/dateRangeFilter.js',
-                     JQ_CONFIG.moment] );
+                      rootUrl+'js/controllers/chart.js',
+                      JQ_CONFIG.moment] );
+                  }]
+                }
+              })   
+              .state('apps.users', {
+                url: '/users',
+                templateUrl: rootUrl+'templates/apps_users.html',
+                resolve: {
+                  deps: ['uiLoad',
+                  function( uiLoad ){
+                    return uiLoad.load( [
+                      rootUrl+'js/app/user/user.js', 
+                      rootUrl+'js/app/user/user.service.js', 
+                      rootUrl+'js/filters/userRole.js',
+                      JQ_CONFIG.moment] );
                   }]
                 }
               })    

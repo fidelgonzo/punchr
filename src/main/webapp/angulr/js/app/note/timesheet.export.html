@@ -1,15 +1,50 @@
 <div class="padder">
-  <h2>Export </h2>
-  <div class="list-group">
+  <h2>Weekly Report</h2>
+  
+   <table class="table table-striped b-t b-light">
+        <thead>
+          <tr>
+            <th>Week</th>
+            <th>Distance</th>
+            <th>Average Speed</th>            
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="week in weeks">
+            <td>Week {{ week.number }}</td>
+            <td>{{ week.distance | number:2 }} km</td>
+            <td>{{ week.average | number:2 }} km/h </td>
+          </tr>
+        </tbody>
+  </table>  	
 
-
-    <div ng-repeat="(date, array) in grouped">
-    	<span class="pull-right"> Total time: <strong>{{array | sumDurationFilter}}h</strong></span>
-      <h4>{{ date | date:"yyyy MMM dd" }}</h4>
-      <!-- <div>&nbsp;</div> -->
-      <div class="list-group-item">
-        <li ng-repeat="note in array | orderBy:'date':true">{{ note.title ? note.title : 'Empty note' }}</li>
+  <!-- <div class="panel panel-default">
+    <div class="panel-heading font-bold">Spline</div>
+    <div class="panel-body"> -->
+      <div ui-jq="plot" ui-options="
+        [
+          { data: {{d}}, points: { show: true, radius: 6}, splines: { show: true, tension: 0.45, lineWidth: 5, fill: 0 } },
+          { data: {{d2}}, points: { show: true, radius: 6}, splines: { show: true, tension: 0.45, lineWidth: 5, fill: 0 } }
+        ], 
+        {
+          colors: ['#23b7e5','#f05050'],
+          series: { shadowSize: 3 },
+          xaxis:{ 
+            font: { color: '#ccc' },
+            position: 'bottom',
+            ticks: [
+              [ 1, 'Jan' ], [ 2, 'Feb' ], [ 3, 'Mar' ], [ 4, 'Apr' ], [ 5, 'May' ], [ 6, 'Jun' ], [ 7, 'Jul' ], [ 8, 'Aug' ], [ 9, 'Sep' ], [ 10, 'Oct' ], [ 11, 'Nov' ], [ 12, 'Dec' ]
+            ]
+          },
+          yaxis:{ font: { color: '#ccc' } },
+          grid: { hoverable: true, clickable: true, borderWidth: 0, color: '#ccc' },
+          tooltip: true,
+          tooltipOpts: { content: '%x.1 is %y.4',  defaultTheme: false, shifts: { x: 0, y: 20 } }
+        }
+      " style="height:240px" >
       </div>
-    </div>
-  </div>
+    <!-- </div>
+  </div> -->
+    
+  
 </div>

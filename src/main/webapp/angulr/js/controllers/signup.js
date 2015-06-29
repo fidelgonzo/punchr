@@ -19,6 +19,7 @@ app.controller('SignupFormController', ['$scope', '$http', '$state', '$timeout',
                 $scope.error = null;
                 $scope.errorUserExists = null;
                 $scope.errorEmailExists = null;
+                $scope.registerAccount.login = $scope.registerAccount.login.toLowerCase();
 
                 Auth.createAccount($scope.registerAccount).then(function () {
                     $scope.success = 'OK';
@@ -29,6 +30,9 @@ app.controller('SignupFormController', ['$scope', '$http', '$state', '$timeout',
                         $scope.errorUserExists = 'ERROR';
                         $scope.authError = response.data;
                     } else if (response.status === 400 && response.data === 'e-mail address already in use') {
+                        $scope.errorEmailExists = 'ERROR';
+                        $scope.authError = response.data;
+                    } else if (response.status === 406 ) {
                         $scope.errorEmailExists = 'ERROR';
                         $scope.authError = response.data;
                     } else {

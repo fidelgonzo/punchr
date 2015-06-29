@@ -113,6 +113,7 @@ angular.module('ui.bootstrap.datetimepicker',
             "<timepicker " + [
               ["hourStep"],
               ["minuteStep"],
+              ["secondStep"],
               ["showMeridian"],
               ["meredians"],
               ["mousewheel"]

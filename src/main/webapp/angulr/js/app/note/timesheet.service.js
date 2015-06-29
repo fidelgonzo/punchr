@@ -2,8 +2,9 @@
 
 angular.module('app')
     .factory('Timesheet', function ($resource) {
-        return $resource('api/timesheets/:id', {}, {
+        return $resource('api/timesheets/:id', { id: '@ids'}, {
             'query': { method: 'GET', isArray: true},
+            // 'queryAll': { method: 'GET', isArray: true},
             'get': {
                 method: 'GET',
                 transformResponse: function (data) {

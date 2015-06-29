@@ -14,7 +14,8 @@ app.hideFooter = true;
         <div ng-include="'apps/note/timesheet.new.html'"></div>
       </script>
       <a href class="pull-right btn btn-sm btn-info m-t-n-xs" ng-click="open('sm')">New</a>
-      <div class="h4">Timesheets</div>
+
+      <div class="h4">Jog Times</div>
     </div>
 
     <div class="wrapper b-t m-t-xxs">
@@ -41,39 +42,74 @@ app.hideFooter = true;
       <a href class="btn btn-default" ng-click="changeFilter('week')">This Week</a>
       <a href class="btn btn-default" ng-click="export()"><i class="fa fa-external-link"></i> Export</a>
 
-      <div class="input-group" style="float: right">
+     <!--  <div class="input-group" style="float: right">
         <span class="input-group-addon input-sm"><i class="fa fa-search"></i></span>
         <input type="text" class="form-control input-sm" placeholder="search" ng-model="query">
-      </div>
+      </div> -->
     </div>
     
 
   </div>
 
+  <div class="table-responsive">
+      <table class="table table-striped b-t b-light">
+        <thead>
+          <tr>
+            <th ng-show="account.isManager">User</th>
+            <th>Date</th>
+            <th>Duration</th>
+            <th>Distance</th>
+            <th>Average Speed</th>            
+            <th width="100px"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="note in (filteredTimesheets = (timesheets | dateRange: startDate : endDate : query | orderBy:'date':true))" class="b-l-3x hover-anchor" ng-class="{'hover': note.selected }" ng-click="selectNote(note)"
+          ng-mouseover="hover(note)" ng-mouseout="hover(note)">
+          <td ng-show="account.isManager"> {{note.userId.login}}</td>
+          <td>
+          {{ note.date | date:"yyyy MMM dd" }}</td>
+          <td><i class="glyphicon glyphicon-time text-muted"></i> {{ (note.time > 3600) ? (note.duration | date:"H'h 'm'm 's's '") : (note.duration | date:"m'm 's's '") }}</td>
+          <td>{{ note.distance}} km <progressbar value="(note.distance / maxDistance)*100" class="progress-xs m-b-none bg-grey" type="info">{{maxDistance}}</progressbar></td>
+          <td>{{ note.distance / (note.time / 3600) | number:2 }} km/h  <progressbar value="(note.distance / (note.time / 3600) / maxAverage)*100" class="progress-xs m-b-none bg-grey" type="danger">{{maxAverage}}</progressbar></td>
+          <td><div class="pull-right" ng-show="note.hover">
+                <button class="btn btn-xs btn-default" ng-click='edit(note)'><i class="icon-pencil"></i></button>
+                <button class="btn btn-xs btn-default" ng-click='delete(note)'><i class="icon-trash"></i></button>
+              </div></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
 
-  <div class="row-row">
+
+  <!--<div class="row-row">
     <div class="cell scrollable hover">
       <div class="cell-inner">
         <div class="padder">
           <div class="list-group">
             <a ng-repeat="note in (filteredTimesheets = (timesheets | dateRange: startDate : endDate : query | orderBy:'date':true))" class="list-group-item b-l-{{note.color}} b-l-3x hover-anchor" ng-class="{'hover': note.selected }" ng-click="selectNote(note)">
-              <!-- <span ng-click='deleteNote(note)' class="pull-right text-muted hover-action"><i class="fa fa-times"></i></span> -->
-              <div class="pull-right hover-action" style="padding-top:5px">
-                <button class="btn btn-rounded btn-sm btn-icon btn-default" ng-click='edit(note)'><i class="icon-pencil"></i></button>
-                <button class="btn btn-rounded btn-sm btn-icon btn-default" ng-click='delete(note)'><i class="icon-trash"></i></button>
-              </div>
-              <span class="block text-ellipsis">{{ note.title ? note.title : 'Empty note' }}</span>
-              <small class="text-muted pull-left">{{ note.date | date:"MMM dd hh:mm" }}</small>
-              <!-- <small class="text-muted">- {{ note.dateTo | date:"hh:mm" }}</small> -->
-              <span class="badge bg-success pull-left" style="margin-left:10px">{{ note.duration }}h</span>
               
+              
+              <span class="text-muted pull-left col-lg-2">{{ note.date | date:"yyyy MMM dd hh:mm" }}</span>
+              <i class="pull-left glyphicon glyphicon-time text-muted"></i>
+              <span class="pull-left col-lg-1" >{{ (note.time > 3600) ? (note.duration | date:"H'h 'm'm 's's '") : (note.duration | date:"m'm 's's '") }}</span>
+              <span class="pull-left col-lg-1 hidden-sm hidden-xs" style="padding-top:8px">
+                <progressbar value="(note.distance / maxDistance)*100" class="progress-xs m-b-none bg-grey" type="info">{{maxDistance}}</progressbar>
+              </span>
+              <span class="pull-left col-lg-2 text-info"><span class="hidden-xs">Distance:</span> {{ note.distance}} km</span>
+
+              <span class="pull-left col-lg-1 hidden-sm hidden-xs" style="padding-top:8px">
+                <progressbar value="(note.distance / (note.time / 3600) / maxAverage)*100" class="progress-xs m-b-none bg-grey" type="danger">{{maxAverage}}</progressbar>
+              </span>
+
+              <span class="pull-left text-danger col-lg-2"><span class="hidden-xs">Avg speed:</span> {{ note.distance / (note.time / 3600) | number:2 }} km/h</span>
               <div class="clear">&nbsp;</div>
             </a>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 </div>
 </div>
 <!-- /column -->

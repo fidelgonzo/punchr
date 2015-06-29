@@ -13,7 +13,13 @@ angular.module('app')
       fullcalendar:   [   '../bower_components/moment/moment.js',
                           '../bower_components/fullcalendar/dist/fullcalendar.min.js',
                           '../bower_components/fullcalendar/dist/fullcalendar.css',
-                          '../bower_components/fullcalendar/dist/fullcalendar.theme.css']
+                          '../bower_components/fullcalendar/dist/fullcalendar.theme.css'],
+      plot:           [   '../bower_components/flot/jquery.flot.js',
+                          '../bower_components/flot/jquery.flot.pie.js', 
+                          '../bower_components/flot/jquery.flot.resize.js',
+                          '../bower_components/flot.tooltip/js/jquery.flot.tooltip.js',
+                          '../bower_components/flot.orderbars/js/jquery.flot.orderBars.js',
+                          '../bower_components/flot-spline/js/jquery.flot.spline.js']
     }
   );
 

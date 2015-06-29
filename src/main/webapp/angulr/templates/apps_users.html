@@ -1,0 +1,87 @@
+<!-- hbox layout -->
+<div class="hbox hbox-auto-xs bg-light " ng-init="
+app.settings.asideFixed = true;
+app.settings.asideDock = false;
+app.settings.container = false;
+app.hideAside = true;
+app.hideFooter = true;
+" ng-controller="UserCtrl">
+<!-- column -->
+<div class="col">
+  <div class="h-full" style="min-height:340px;">
+    <div class="wrapper">
+      <script type="text/ng-template" id="newTimesheet.html">
+        <div ng-include="'apps/user/timesheet.new.html'"></div>
+      </script>      
+      <!-- <ul class="nav nav-pills nav-sm pull-right">
+        <li href class="m-t-n-xs" ng-click="open('sm')" ng-repeat="role in account.roles">{{role}}</li>
+      </ul>
+      <span href class="pull-right m-t-n-xs" ng-click="open('sm')">{{isAdmin}}</span> -->
+
+      <div class="h4">Users</div>
+    </div>
+
+    <div class="wrapper b-t m-t-xxs">
+
+      <div class="form-group form-inline" ng-visible="customVisible">
+
+        <div class="input-group" style="float: right">
+          <span class="input-group-addon input-sm"><i class="fa fa-search"></i></span>
+          <input type="text" class="form-control input-sm" placeholder="search" ng-model="query">
+        </div>
+      </div>
+    
+
+    </div>
+
+  <div class="table-responsive">
+      <table class="table table-striped b-t b-light">
+        <thead>
+          <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Username</th>
+            <th>Email</th>
+            <th>User admin</th>
+            <th>Time admin</th>
+            <th style="width:20px;">
+              
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="user in (filteredTimesheets = (users | filter:query | orderBy:'date':true))" class="" ng-class="{'hover': user.selected }" ng-click="selectNote(user)">
+            <td>{{ user.firstName ? user.firstName : '' }}</td>
+            <td>{{ user.lastName ? user.lastName : '' }}</td>
+            <td>{{ user.login }}</td>
+            <td>{{ user.email }}</td>
+            <td> 
+              <label class="i-checks">
+                <input type="checkbox" ng-checked="{{user.roles | userRoleIsAdmin}}" ng-click="changeAdmin(user)">
+                <i></i>
+              </label>
+
+            </td>
+            <td>
+             <label class="i-checks">
+                <input type="checkbox" ng-checked="{{user.roles | userRoleIsManager}}" ng-click="changeManager(user)">
+                <i></i>
+              </label>
+            </td>
+            <td>
+
+              <button class="btn btn-xs btn-danger" ng-click='delete(user)'>
+                <i class="icon-trash"></i>
+              </button>  
+            </td>
+          </tr>
+        </tbody>
+      </table>
+  </div>
+ 
+</div>
+</div>
+<!-- /column -->
+
+</div>
+<!-- /hbox layout -->

@@ -8,12 +8,17 @@ angular.module('app').filter('dateRange', function(){
     	// else if(startDate instanceof 'Moment'){
     		// startDate = startDate._d;
     	// }
+        // console.log(typeof startDate);
+
     	if(endDate == undefined)
     		endDate = new Date(3000,0,0);
-    	else{
+    	else if(endDate.hasOwnProperty('_d')){
     		endDate._d.setHours(23);
     		endDate._d.setMinutes(59);
-    	}
+    	}else{
+            endDate.setHours(23);
+            endDate.setMinutes(59);
+        }
     	if(query == undefined)
     		query = "";
 

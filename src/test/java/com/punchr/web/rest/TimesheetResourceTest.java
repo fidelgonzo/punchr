@@ -87,8 +87,9 @@ public class TimesheetResourceTest {
         timesheet = new Timesheet();
         timesheet.setDate(DEFAULT_DATE);
         timesheet.setTitle(DEFAULT_TITLE);
-        timesheet.setDuration(DEFAULT_DURATION);
+        timesheet.setDuration(DEFAULT_DATE);
         timesheet.setCreated(DEFAULT_CREATED);
+        timesheet.setDistance(DEFAULT_DURATION);
         timesheet.setUserId(userRepository.findOneByLogin("admin"));
     }
 
@@ -181,7 +182,7 @@ public class TimesheetResourceTest {
             .andExpect(jsonPath("$.id").value(timesheet.getId().intValue()))
             .andExpect(jsonPath("$.date").value(DEFAULT_DATE_STR))
             .andExpect(jsonPath("$.title").value(DEFAULT_TITLE.toString()))
-            .andExpect(jsonPath("$.duration").value(DEFAULT_DURATION.intValue()))
+            .andExpect(jsonPath("$.duration").value(DEFAULT_DATE_STR))
             .andExpect(jsonPath("$.created").value(DEFAULT_CREATED_STR));
     }
 
@@ -204,7 +205,7 @@ public class TimesheetResourceTest {
         // Update the timesheet
         timesheet.setDate(UPDATED_DATE);
         timesheet.setTitle(UPDATED_TITLE);
-        timesheet.setDuration(UPDATED_DURATION);
+        timesheet.setDuration(UPDATED_DATE);
         timesheet.setCreated(UPDATED_CREATED);
         restTimesheetMockMvc.perform(put("/api/timesheets")
                 .contentType(TestUtil.APPLICATION_JSON_UTF8)

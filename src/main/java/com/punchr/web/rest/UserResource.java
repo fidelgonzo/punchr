@@ -1,9 +1,11 @@
 package com.punchr.web.rest;
 
 import com.codahale.metrics.annotation.Timed;
+import com.punchr.domain.Authority;
 import com.punchr.domain.User;
 import com.punchr.repository.UserRepository;
 import com.punchr.security.AuthoritiesConstants;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.MediaType;
@@ -13,7 +15,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.inject.Inject;
+
 import java.util.List;
+import java.util.Set;
+
 import javax.servlet.http.HttpServletResponse;
 
 /**
@@ -37,7 +42,11 @@ public class UserResource {
     @Timed
     public List<User> getAll() {
         log.debug("REST request to get all Users");
-        return userRepository.findAll();
+        List<User> users = userRepository.findAll();
+        for (User user : users) {
+			user.getAuthorities();
+		}
+        return users;
     }
 
     /**

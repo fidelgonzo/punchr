@@ -72,7 +72,8 @@ public class TimesheetResource {
         }
         
         if(timesheet.getUserId() == null) {
-        	timesheet.setUserId(userService.getUserWithAuthorities());
+        	timesheet.setUserId(timesheetRepository.getOne(timesheet.getId()).getUserId());
+//        	timesheet.setUserId(userService.getUserWithAuthorities());
         }
         timesheetRepository.save(timesheet);
         return ResponseEntity.ok().build();

@@ -82,6 +82,11 @@ public class UserService {
         log.debug("Created Information for User: {}", newUser);
         return newUser;
     }
+    
+    public List<User> findAll(){
+    	List<User> users = userRepository.findAll();
+		return users;
+    }
 
     public void updateUserInformation(String firstName, String lastName, String email, Date preferredFrom, Date preferredTo) {
         User currentUser = userRepository.findOneByLogin(SecurityUtils.getCurrentLogin());
@@ -92,6 +97,18 @@ public class UserService {
         currentUser.setPreferredTo(preferredTo);
         userRepository.save(currentUser);
         log.debug("Changed Information for User: {}", currentUser);
+    }
+    
+    public void updateUserAuthority(String login, List<String> roles) {
+        User currentUser = userRepository.findOneByLogin(login);
+        Set<Authority> authorities = new HashSet<>();
+        for (String role : roles) {
+        	Authority authority = authorityRepository.findOne(role);
+        	authorities.add(authority);
+		}
+        currentUser.setAuthorities(authorities);
+        userRepository.save(currentUser);
+        log.debug("Changed Authorities for User: {}", currentUser);
     }
 
     public void changePassword(String password) {
@@ -107,6 +124,15 @@ public class UserService {
         User currentUser = userRepository.findOneByLogin(SecurityUtils.getCurrentLogin());
         currentUser.getAuthorities().size(); // eagerly load the association
         return currentUser;
+    }
+    
+    @Transactional(readOnly = true)
+    public List<User> getUsersWithAuthorities() {
+        List<User> users = userRepository.findAll();
+        for (User user : users) {
+        	user.getAuthorities().size(); // eagerly load the association
+        }
+        return users;
     }
 
     /**

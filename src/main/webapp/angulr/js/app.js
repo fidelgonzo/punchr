@@ -14,6 +14,7 @@ angular.module('app', [
     'ui.load',
     'ui.jq',
     'ui.bootstrap.datetimepicker',
+    'ui.bootstrap.mytimepicker',
     'oc.lazyLoad',
     // 'pascalprecht.translate',
     'LocalStorageModule'

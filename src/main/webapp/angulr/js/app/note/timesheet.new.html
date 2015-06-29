@@ -1,21 +1,29 @@
 <div class="modal-body wrapper">
   <div class="row">
     <div class="col-md-12">
-      <h3 class="m-t-none m-b font-thin">Log time worked</h3>
+      <h3 class="m-t-none m-b font-thin">Log time jogged</h3>
       <form role="form">
 
         <div class="">
-          <datetimepicker min-date="minDate" show-weeks="showWeeks" hour-step="1" minute-step="15" ng-model="date" show-meridian="true" date-format="dd-MMM-yyyy" date-options="dateOptions" date-disabled="disabled(date, mode)" readonly-time="false"></datetimepicker>
+           <p class="input-group">
+              <input type="text" class="form-control" datepicker-popup="{{format}}" ng-model="date" is-open="opened" min-date="minDate" datepicker-options="dateOptions" date-disabled="disabled(date, mode)" ng-required="true" close-text="Close" />
+              <span class="input-group-btn">
+                <button type="button" class="btn btn-default" ng-click="open($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+              </span>
+            </p>
+        </div>
+
+        <div class="">
+          <label>Duration</label>   
+          <mytimepicker ng-model="duration" ng-change="changed()" hour-step="1" minute-step="1" second-step="1" show-seconds="true" show-meridian="false"></mytimepicker>
         </div>
 
         <div class="form-group">
-          <label>Duration</label>   
-          <input ui-jq="TouchSpin" type="text" value="{{duration}}" class="form-control" data-min='0' data-max="24" data-step="0.5" data-decimals="1" data-postfix="hours" ng-model="duration">
-        </div> 
-
-        <div class="form-group">
-          <label>Description</label>   
-          <textarea class="form-control" rows="3" ng-model="title">{{title}}</textarea>
+          <label>Distance</label>   
+          <div class="input-group m-b">
+              <input type="text" class="form-control" ng-model="distance">
+              <span class="input-group-addon">km</span>
+          </div>
         </div> 
 
         <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="cancel()">

@@ -40,8 +40,15 @@ public class Timesheet implements Serializable {
     private String title;
 
     @NotNull
-    @Column(name = "duration", precision=10, scale=2, nullable = false)
-    private BigDecimal duration;
+    @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
+    @JsonSerialize(using = CustomDateTimeSerializer.class)
+    @JsonDeserialize(using = CustomDateTimeDeserializer.class)
+    @Column(name = "duration", nullable = false)
+    private DateTime duration;
+    
+    @NotNull
+    @Column(name = "distance", precision=10, scale=3, nullable = false)
+    private BigDecimal distance;
 
     @Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
     @JsonSerialize(using = CustomDateTimeSerializer.class)
@@ -76,11 +83,11 @@ public class Timesheet implements Serializable {
         this.title = title;
     }
 
-    public BigDecimal getDuration() {
+    public DateTime getDuration() {
         return duration;
     }
 
-    public void setDuration(BigDecimal duration) {
+    public void setDuration(DateTime duration) {
         this.duration = duration;
     }
 
@@ -128,7 +135,16 @@ public class Timesheet implements Serializable {
                 ", date='" + date + "'" +
                 ", title='" + title + "'" +
                 ", duration='" + duration + "'" +
+                ", distance='" + getDistance() + "'" +
                 ", created='" + created + "'" +
                 '}';
     }
+
+	public BigDecimal getDistance() {
+		return distance;
+	}
+
+	public void setDistance(BigDecimal distance) {
+		this.distance = distance;
+	}
 }
